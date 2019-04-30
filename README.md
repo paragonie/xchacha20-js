@@ -1,5 +1,8 @@
 # XChaCha20 (JavaScript)
 
+[![Travis CI](https://travis-ci.org/paragonie/xchacha20-js.svg?branch=master)](https://travis-ci.org/paragonie/xchacha20-js)
+[![npm version](https://img.shields.io/npm/v/xchacha20-js.svg)](https://npm.im/xchacha20-js)
+
 This is a pure JavaScript implementation of XChaCha20 (and therefore ChaCha20
 and HChaCha20), for use in polyfill libraries.
 

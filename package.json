@@ -1,6 +1,6 @@
 {
   "name": "xchacha20-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Javascript implementations of ChaCha20, HChaCha20, and XChaCha20",
   "main": "index.js",
   "scripts": {
