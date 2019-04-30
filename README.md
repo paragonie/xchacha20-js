@@ -6,6 +6,14 @@
 This is a pure JavaScript implementation of XChaCha20 (and therefore ChaCha20
 and HChaCha20), for use in polyfill libraries.
 
+# Important Security Warning
+
+This library provides [unauthenticated encryption](https://tonyarcieri.com/all-the-crypto-code-youve-ever-written-is-probably-broken).
+**You shouldn't use it directly.** It's meant to be a building block for other,
+high-level protocols.
+
+**Use [sodium-native](https://github.com/mafintosh/sodium-native) instead!**
+
 ## Installing this Library
 
 ```
@@ -25,4 +33,6 @@ let nonce = Buffer.from('404142434445464748494a4b4c4d4e4f5051525354555658', 'hex
 let blockCounter = 1; // Optional, defaults to 1 per the RFC
 let ciphertext = xcha20.encrypt(message, nonce, key, blockCounter);
 let plaintext = xcha20.decrypt(ciphertext, nonce, key, blockCounter);
-``` 
+
+console.log(plaintext.toString() === message); // true
+```
