@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
-const Util = require('../lib/Util');
-const ChaCha20 = require('../lib/ChaCha20');
-const HChaCha20 = require('../lib/HChaCha20');
-const XChaCha20 = require('../lib/XChaCha20');
+const Util = require('../lib/util');
+const ChaCha20 = require('../lib/chacha20');
+const HChaCha20 = require('../lib/hchacha20');
+const XChaCha20 = require('../lib/xchacha20');
 
 let c = new ChaCha20();
 let h = new HChaCha20();
@@ -70,7 +70,7 @@ describe('Test Vectors', function () {
         expect('6ae103cf').to.be.equal(output[3].toString(16));
     });
 
-    it('HChaCha20', function () {
+    it('HChaCha20', async function () {
         let key = Buffer.from('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f', 'hex');
         let nonce = Buffer.from('000000090000004a0000000031415927', 'hex');
 
@@ -83,24 +83,24 @@ describe('Test Vectors', function () {
         expect(
             '82413b4227b27bfed30e42508a877d73a0f9e4d58a74a853c12ec41326d3ecdc'
         ).to.be.equal(
-            h.hChaCha20Bytes(nonce, key).toString('hex')
+            (await h.hChaCha20Bytes(nonce, key)).toString('hex')
         );
     });
 
-    it('ChaCha20 -- test vectors (RFC 7539)', function () {
+    it('ChaCha20 -- test vectors (RFC 7539)', async function () {
         let key = Buffer.alloc(32, 0);
         let nonce = Buffer.alloc(12, 0);
         let message;
 
         expect(
-            c.ietfStream(64, nonce, key).toString('hex')
+            (await c.ietfStream(64, nonce, key)).toString('hex')
         ).to.be.equal(
             '76b8e0ada0f13d90405d6ae55386bd28bdd219b8a08ded1aa836efcc8b770dc7' +
             'da41597c5157488d7724e03fb8d84a376a43b8f41518a11cc387b669b2ee6586'
         );
 
         expect(
-            c.ietfStreamIc(64, nonce, key, 1).toString('hex')
+            (await c.ietfStreamIc(64, nonce, key, 1)).toString('hex')
         ).to.be.equal(
             '9f07e7be5551387a98ba977c732d080dcb0f29a048e3656912c6533e32ee7aed' +
             '29b721769ce64e43d57133b074d839d531ed1f28510afb45ace10a1f4b794d6f'
@@ -108,7 +108,7 @@ describe('Test Vectors', function () {
 
         key = Buffer.from('0000000000000000000000000000000000000000000000000000000000000001', 'hex');
         expect(
-            c.ietfStreamIc(64, nonce, key, 1).toString('hex')
+            (await c.ietfStreamIc(64, nonce, key, 1)).toString('hex')
         ).to.be.equal(
             '3aeb5224ecf849929b9d828db1ced4dd832025e8018b8160b82284f3c949aa5a' +
             '8eca00bbb4a73bdad192b5c42f73f2fd4e273644c8b36125a64addeb006c13a0'
@@ -118,7 +118,7 @@ describe('Test Vectors', function () {
         nonce = Buffer.alloc(12, 0);
         message = Buffer.alloc(128, 0);
         expect(
-            c.ietfStreamXorIc(message, nonce, key, 0).toString('hex')
+            (await c.ietfStreamXorIc(message, nonce, key, 0)).toString('hex')
         ).to.be.equal(
             '76b8e0ada0f13d90405d6ae55386bd28bdd219b8a08ded1aa836efcc8b770dc7' +
             'da41597c5157488d7724e03fb8d84a376a43b8f41518a11cc387b669b2ee6586' +
@@ -146,7 +146,7 @@ describe('Test Vectors', function () {
         );
 
         expect(
-            c.ietfStreamXorIc(message, nonce, key, 1).toString('hex')
+            (await c.ietfStreamXorIc(message, nonce, key, 1)).toString('hex')
         ).to.be.equal(
             'a3fbf07df3fa2fde4f376ca23e82737041605d9f4f4f57bd8cff2c1d4b7955ec' +
             '2a97948bd3722915c8f3d337f7d370050e9e96d647b7c39f56e031ca5eb6250d' +
@@ -173,7 +173,7 @@ describe('Test Vectors', function () {
             'hex'
         );
         expect(
-            c.ietfStreamXorIc(message, nonce, key, 42).toString('hex')
+            (await c.ietfStreamXorIc(message, nonce, key, 42)).toString('hex')
         ).to.be.equal(
             '62e6347f95ed87a45ffae7426f27a1df5fb69110044c0d73118effa95b01e5cf'+
             '166d3df2d721caf9b21e5fb14c616871fd84c54f9d65b283196c7fe4f60553eb'+
@@ -183,7 +183,7 @@ describe('Test Vectors', function () {
     });
 
     // https://datatracker.ietf.org/doc/draft-arciszewski-xchacha/
-    it('XChaCha20', function () {
+    it('XChaCha20', async function () {
         let key = Buffer.from('808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f', 'hex');
         let nonce = Buffer.from('404142434445464748494a4b4c4d4e4f5051525354555658', 'hex');
         let message = Buffer.from(
@@ -192,7 +192,7 @@ describe('Test Vectors', function () {
             " skilled jumper is classified with wolves, coyotes, jackals, and foxes in the taxonomic family Canidae."
         );
         expect(
-            x.encrypt(message, nonce, key, 1).toString('hex')
+            (await x.encrypt(message, nonce, key, 1)).toString('hex')
         ).to.be.equal(
             '7d0a2e6b7f7c65a236542630294e063b7ab9b555a5d5149aa21e4ae1e4fbce87'+
             'ecc8e08a8b5e350abe622b2ffa617b202cfad72032a3037e76ffdcdc4376ee05'+
