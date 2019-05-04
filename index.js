@@ -1,6 +1,6 @@
-const ChaCha20 = require('./lib/ChaCha20');
-const HChaCha20 = require('./lib/HChaCha20');
-const XChaCha20 = require('./lib/XChaCha20');
+const ChaCha20 = require('./lib/chacha20');
+const HChaCha20 = require('./lib/hchacha20');
+const XChaCha20 = require('./lib/xchacha20');
 
 module.exports = {
     "ChaCha20": ChaCha20,

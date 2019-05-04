@@ -22,6 +22,8 @@ npm install xchacha20-js
 
 ## Using this Library
 
+Usage is straightforward.
+
 ```javascript
 const XChaCha20 = require('xchacha20-js');
 
@@ -31,8 +33,31 @@ let key = Buffer.from('808182838485868788898a8b8c8d8e8f909192939495969798999a9b9
 let nonce = Buffer.from('404142434445464748494a4b4c4d4e4f5051525354555658', 'hex');
 
 let blockCounter = 1; // Optional, defaults to 1 per the RFC
-let ciphertext = xcha20.encrypt(message, nonce, key, blockCounter);
-let plaintext = xcha20.decrypt(ciphertext, nonce, key, blockCounter);
+xcha20.encrypt(message, nonce, key, blockCounter).then(
+    function (ciphertext) {
+        xcha20.decrypt(ciphertext, nonce, key, blockCounter).then(
+            function (plaintext) {
+                console.log(plaintext.toString() === message); // true
+            }
+        )
+    }
+);
+```
 
-console.log(plaintext.toString() === message); // true
+Alternatively. using `async` / `await`...
+
+```javascript
+const XChaCha20 = require('xchacha20-js');
+
+let xcha20 = new XChaCha20;
+let message = "test message";
+let key = Buffer.from('808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f', 'hex');
+let nonce = Buffer.from('404142434445464748494a4b4c4d4e4f5051525354555658', 'hex');
+
+(async function(){
+    let blockCounter = 1; // Optional, defaults to 1 per the RFC
+    let ciphertext = await xcha20.encrypt(message, nonce, key, blockCounter);
+    let plaintext = await xcha20.decrypt(ciphertext, nonce, key, blockCounter);
+    console.log(plaintext.toString() === message); // true
+})();
 ```
