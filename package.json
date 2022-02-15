@@ -1,6 +1,6 @@
 {
   "name": "xchacha20-js",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Javascript implementations of ChaCha20, HChaCha20, and XChaCha20",
   "main": "index.js",
   "scripts": {
@@ -17,12 +17,12 @@
   ],
   "repository": "https://github.com/paragonie/xchacha20-js",
   "devDependencies": {
-    "assert": "^1.4.1",
-    "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "assert": "^2.0.0",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.0"
   },
   "dependencies": {
-    "typedarray-to-buffer": "^3.1.5"
+    "typedarray-to-buffer": "^4.0.0"
   },
   "author": "Paragon Initiative Enterprises",
   "license": "ISC"
